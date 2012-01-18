@@ -14,10 +14,10 @@
 		0E04CB9914C5C6F100EFED05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CB9814C5C6F100EFED05 /* main.m */; };
 		0E04CB9D14C5C6F100EFED05 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CB9C14C5C6F100EFED05 /* AppDelegate.m */; };
 		0E04CBA014C5C6F100EFED05 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CB9E14C5C6F100EFED05 /* MainStoryboard.storyboard */; };
-		0E04CBA314C5C6F100EFED05 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CBA214C5C6F100EFED05 /* FirstViewController.m */; };
+		0E04CBA314C5C6F100EFED05 /* JsonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CBA214C5C6F100EFED05 /* JsonViewController.m */; };
 		0E04CBA514C5C6F100EFED05 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CBA414C5C6F100EFED05 /* first.png */; };
 		0E04CBA714C5C6F100EFED05 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CBA614C5C6F100EFED05 /* first@2x.png */; };
-		0E04CBAA14C5C6F100EFED05 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CBA914C5C6F100EFED05 /* SecondViewController.m */; };
+		0E04CBAA14C5C6F100EFED05 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CBA914C5C6F100EFED05 /* InfoViewController.m */; };
 		0E04CBAC14C5C6F100EFED05 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CBAB14C5C6F100EFED05 /* second.png */; };
 		0E04CBAE14C5C6F100EFED05 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CBAD14C5C6F100EFED05 /* second@2x.png */; };
 		0E04CBB614C5C6F100EFED05 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E04CBB514C5C6F100EFED05 /* SenTestingKit.framework */; };
@@ -25,6 +25,9 @@
 		0E04CBB814C5C6F100EFED05 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E04CB8E14C5C6F100EFED05 /* Foundation.framework */; };
 		0E04CBC014C5C6F100EFED05 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CBBE14C5C6F100EFED05 /* InfoPlist.strings */; };
 		0E04CBC314C5C6F100EFED05 /* jsonclientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CBC214C5C6F100EFED05 /* jsonclientTests.m */; };
+		0E544A9914C5CEDF00A8C7BB /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E544A9814C5CEDF00A8C7BB /* TasksViewController.m */; };
+		0E544A9C14C5CFD900A8C7BB /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E544A9B14C5CFD900A8C7BB /* Task.m */; };
+		0E544A9F14C5D3B700A8C7BB /* TaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E544A9E14C5D3B700A8C7BB /* TaskDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,27 +45,33 @@
 		0E04CB8C14C5C6F100EFED05 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0E04CB8E14C5C6F100EFED05 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0E04CB9014C5C6F100EFED05 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		0E04CB9414C5C6F100EFED05 /* jsonclient-Info.plist */ = {isa = PBXFileReference; path = "jsonclient-Info.plist"; sourceTree = "<group>"; };
+		0E04CB9414C5C6F100EFED05 /* jsonclient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "jsonclient-Info.plist"; sourceTree = "<group>"; };
 		0E04CB9614C5C6F100EFED05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0E04CB9814C5C6F100EFED05 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0E04CB9A14C5C6F100EFED05 /* jsonclient-Prefix.pch */ = {isa = PBXFileReference; path = "jsonclient-Prefix.pch"; sourceTree = "<group>"; };
-		0E04CB9B14C5C6F100EFED05 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		0E04CB9A14C5C6F100EFED05 /* jsonclient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jsonclient-Prefix.pch"; sourceTree = "<group>"; };
+		0E04CB9B14C5C6F100EFED05 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E04CB9C14C5C6F100EFED05 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0E04CB9F14C5C6F100EFED05 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		0E04CBA114C5C6F100EFED05 /* FirstViewController.h */ = {isa = PBXFileReference; path = FirstViewController.h; sourceTree = "<group>"; };
-		0E04CBA214C5C6F100EFED05 /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		0E04CBA114C5C6F100EFED05 /* JsonViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JsonViewController.h; sourceTree = "<group>"; };
+		0E04CBA214C5C6F100EFED05 /* JsonViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JsonViewController.m; sourceTree = "<group>"; };
 		0E04CBA414C5C6F100EFED05 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		0E04CBA614C5C6F100EFED05 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		0E04CBA814C5C6F100EFED05 /* SecondViewController.h */ = {isa = PBXFileReference; path = SecondViewController.h; sourceTree = "<group>"; };
-		0E04CBA914C5C6F100EFED05 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		0E04CBA814C5C6F100EFED05 /* InfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		0E04CBA914C5C6F100EFED05 /* InfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
 		0E04CBAB14C5C6F100EFED05 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		0E04CBAD14C5C6F100EFED05 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		0E04CBB414C5C6F100EFED05 /* jsonclientTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = jsonclientTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E04CBB514C5C6F100EFED05 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		0E04CBBD14C5C6F100EFED05 /* jsonclientTests-Info.plist */ = {isa = PBXFileReference; path = "jsonclientTests-Info.plist"; sourceTree = "<group>"; };
+		0E04CBBD14C5C6F100EFED05 /* jsonclientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "jsonclientTests-Info.plist"; sourceTree = "<group>"; };
 		0E04CBBF14C5C6F100EFED05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		0E04CBC114C5C6F100EFED05 /* jsonclientTests.h */ = {isa = PBXFileReference; path = jsonclientTests.h; sourceTree = "<group>"; };
+		0E04CBC114C5C6F100EFED05 /* jsonclientTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jsonclientTests.h; sourceTree = "<group>"; };
 		0E04CBC214C5C6F100EFED05 /* jsonclientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = jsonclientTests.m; sourceTree = "<group>"; };
+		0E544A9714C5CEDF00A8C7BB /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
+		0E544A9814C5CEDF00A8C7BB /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
+		0E544A9A14C5CFD900A8C7BB /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		0E544A9B14C5CFD900A8C7BB /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+		0E544A9D14C5D3B700A8C7BB /* TaskDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailsViewController.h; sourceTree = "<group>"; };
+		0E544A9E14C5D3B700A8C7BB /* TaskDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,15 +134,21 @@
 				0E04CB9B14C5C6F100EFED05 /* AppDelegate.h */,
 				0E04CB9C14C5C6F100EFED05 /* AppDelegate.m */,
 				0E04CB9E14C5C6F100EFED05 /* MainStoryboard.storyboard */,
-				0E04CBA114C5C6F100EFED05 /* FirstViewController.h */,
-				0E04CBA214C5C6F100EFED05 /* FirstViewController.m */,
+				0E04CBA114C5C6F100EFED05 /* JsonViewController.h */,
+				0E04CBA214C5C6F100EFED05 /* JsonViewController.m */,
 				0E04CBA414C5C6F100EFED05 /* first.png */,
 				0E04CBA614C5C6F100EFED05 /* first@2x.png */,
-				0E04CBA814C5C6F100EFED05 /* SecondViewController.h */,
-				0E04CBA914C5C6F100EFED05 /* SecondViewController.m */,
+				0E04CBA814C5C6F100EFED05 /* InfoViewController.h */,
+				0E04CBA914C5C6F100EFED05 /* InfoViewController.m */,
 				0E04CBAB14C5C6F100EFED05 /* second.png */,
 				0E04CBAD14C5C6F100EFED05 /* second@2x.png */,
 				0E04CB9314C5C6F100EFED05 /* Supporting Files */,
+				0E544A9714C5CEDF00A8C7BB /* TasksViewController.h */,
+				0E544A9814C5CEDF00A8C7BB /* TasksViewController.m */,
+				0E544A9A14C5CFD900A8C7BB /* Task.h */,
+				0E544A9B14C5CFD900A8C7BB /* Task.m */,
+				0E544A9D14C5D3B700A8C7BB /* TaskDetailsViewController.h */,
+				0E544A9E14C5D3B700A8C7BB /* TaskDetailsViewController.m */,
 			);
 			path = jsonclient;
 			sourceTree = "<group>";
@@ -280,8 +295,11 @@
 			files = (
 				0E04CB9914C5C6F100EFED05 /* main.m in Sources */,
 				0E04CB9D14C5C6F100EFED05 /* AppDelegate.m in Sources */,
-				0E04CBA314C5C6F100EFED05 /* FirstViewController.m in Sources */,
-				0E04CBAA14C5C6F100EFED05 /* SecondViewController.m in Sources */,
+				0E04CBA314C5C6F100EFED05 /* JsonViewController.m in Sources */,
+				0E04CBAA14C5C6F100EFED05 /* InfoViewController.m in Sources */,
+				0E544A9914C5CEDF00A8C7BB /* TasksViewController.m in Sources */,
+				0E544A9C14C5CFD900A8C7BB /* Task.m in Sources */,
+				0E544A9F14C5D3B700A8C7BB /* TaskDetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +355,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -362,7 +380,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -451,6 +469,7 @@
 				0E04CBC814C5C6F100EFED05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0E04CBC914C5C6F100EFED05 /* Build configuration list for PBXNativeTarget "jsonclientTests" */ = {
 			isa = XCConfigurationList;
@@ -459,6 +478,7 @@
 				0E04CBCB14C5C6F100EFED05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

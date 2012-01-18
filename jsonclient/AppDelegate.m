@@ -7,14 +7,43 @@
 //
 
 #import "AppDelegate.h"
+#import "Task.h"
+#import "TasksViewController.h"
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    NSMutableArray *tasks;
+}
 
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    tasks = [NSMutableArray arrayWithCapacity:20];
+	Task *task = [[Task alloc] init];
+	task.name = @"task 1";
+	task.description = @"description of task 1";
+	[tasks addObject:task];
+    task = [[Task alloc] init];
+    task.name = @"task 2";
+	task.description = @"description of task 2";
+	[tasks addObject:task];
+    task = [[Task alloc] init];
+    task.name = @"task 3";
+	task.description = @"description of task 3";
+	[tasks addObject:task];
+    task = [[Task alloc] init];
+    task.name = @"task 4";
+	task.description = @"description of task 4";
+	[tasks addObject:task];
+    
+	UITabBarController *tabBarController = 
+    (UITabBarController *)self.window.rootViewController;
+	UINavigationController *navigationController = 
+    [[tabBarController viewControllers] objectAtIndex:0];
+	TasksViewController *tasksViewController = 
+    [[navigationController viewControllers] objectAtIndex:0];
+	tasksViewController.tasks = tasks;
+    
     return YES;
 }
 							
@@ -29,7 +58,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+     Use this method to release shared resources, save user data, invalidate timers, and e enough application state information to ree your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
 }
