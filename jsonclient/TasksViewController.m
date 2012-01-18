@@ -35,12 +35,14 @@
 {
 	if ([segue.identifier isEqualToString:@"AddTask"])
 	{
+        NSLog(@"AddTask");
 		UINavigationController *navigationController = 
         segue.destinationViewController;
 		TaskDetailsViewController 
         *taskDetailsViewController = 
         [[navigationController viewControllers] 
          objectAtIndex:0];
+        taskDetailsViewController.task = [[Task alloc] init];
 		taskDetailsViewController.delegate = self;
 	} else if ([segue.identifier isEqualToString:@"DetailTask"])
     {
@@ -50,20 +52,28 @@
         *taskDetailsViewController = 
         [[navigationController viewControllers] 
          objectAtIndex:0];
+        
+        NSIndexPath *selectedIndexPath = self.tableView.indexPathForSelectedRow;
+        
+        NSLog(@"DetailTask: %i", selectedIndexPath.row);
+        taskDetailsViewController.task = [self.tasks objectAtIndex: selectedIndexPath.row];
 		taskDetailsViewController.delegate = self;
     }
 }
 
-- (void)taskDetailsViewController:
-(TaskDetailsViewController *)controller 
-                       didAddTask:(Task *)task
+- (void)taskDetailsViewControllerDidCancel:
+(TaskDetailsViewController *)controller
+{
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)taskDetailsViewController:(TaskDetailsViewController *)controller didAddTask:(Task *)task
 {
 	[self.tasks addObject:task];
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.tasks count] - 1 
                        inSection:0];
 	[self.tableView insertRowsAtIndexPaths: [NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 	[self dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"add task %@", task.name);
 }
 
 #pragma mark - View lifecycle
@@ -76,7 +86,49 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    
+    /**
+     *  Create sqlite database
+     */
+    NSString *docsDir;
+    NSArray *dirPaths;
+    
+    // Get the documents directory
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    // Build the path to the database file
+    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent: @"lite.sqlite"]];
+    
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath: databasePath ] == NO)
+    {
+        const char *dbpath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
+        {
+            char *errMsg;
+            const char *sql_stmt = 
+            "CREATE TABLE IF NOT EXISTS CONTACTS (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, ADDRESS TEXT, PHONE TEXT)";
+            
+            if (sqlite3_exec(contactDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                NSLog(@"Failed to create table");
+            }
+            sqlite3_close(contactDB);
+        } else {
+            NSLog(@"Failed to open/create database");
+        }
+    }
+}
+
+- (void) addTask:(NSString *) name description:(NSString *) description
+{
+    NSLog(@"save data");
 }
 
 - (void)viewDidUnload
@@ -108,8 +160,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -131,7 +182,6 @@
     UITableViewCell *cell = [tableView 
                              dequeueReusableCellWithIdentifier:@"TaskCell"];
 	Task *task = [self.tasks objectAtIndex:indexPath.row];
-    NSLog(@"%@", task.name);
 	cell.textLabel.text = task.name;
 	cell.detailTextLabel.text = task.description;
     
@@ -149,29 +199,28 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
+        [self.tasks removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
 }
 
-/*
-// Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    if (fromIndexPath.row == toIndexPath.row) {
+        return;
+    }
+    Task *task = [self.tasks objectAtIndex:fromIndexPath.row];
+    [self.tasks removeObjectAtIndex:fromIndexPath.row];
+    [self.tasks insertObject:task atIndex:toIndexPath.row];
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
 
 #pragma mark - Table view delegate
 
@@ -188,16 +237,5 @@
 
 #pragma mark - TaskDetailsViewControllerDelegate
 
-- (void)taskDetailsViewControllerDidCancel:
-(TaskDetailsViewController *)controller
-{
-	[self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)taskDetailsViewControllerDidSave:
-(TaskDetailsViewController *)controller
-{
-	[self dismissViewControllerAnimated:YES completion:nil];
-}
 
 @end

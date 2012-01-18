@@ -10,24 +10,24 @@
 #import "Task.h"
 
 @implementation TaskDetailsViewController
-@synthesize descriptionTextField;
 
+@synthesize task;
+
+@synthesize descriptionTextField;
 @synthesize delegate;
 @synthesize nameTextField;
 
 - (IBAction)cancel:(id)sender
 {
-    NSLog(@"cancel");
 	[self.delegate taskDetailsViewControllerDidCancel:self];
 }
 - (IBAction)done:(id)sender
 {
     
-    Task *task = [[Task alloc] init];
-	task.name = self.nameTextField.text;
-	task.description= self.descriptionTextField.text;
+	self.task.name = self.nameTextField.text;
+	self.task.description= self.descriptionTextField.text;
 	[self.delegate taskDetailsViewController:self   
-                                  didAddTask:task];
+                                  didAddTask:self.task];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -72,6 +72,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.nameTextField setText: self.task.name];
+    [self.descriptionTextField setText: self.task.description];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -91,8 +94,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark - Table view delegate

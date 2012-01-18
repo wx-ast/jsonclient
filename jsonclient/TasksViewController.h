@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "TaskDetailsViewController.h"
+#import <sqlite3.h>
 
 @interface TasksViewController : UITableViewController <TaskDetailsViewControllerDelegate>
+{
+    NSString *databasePath;
+    sqlite3 *contactDB;
+}
 
 @property (nonatomic, strong) NSMutableArray *tasks;
+
+- (void) addTask:(NSString *) name description:(NSString *) description;
 
 @end

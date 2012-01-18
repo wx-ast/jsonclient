@@ -21,6 +21,11 @@
 @end
 
 @interface TaskDetailsViewController : UITableViewController
+{
+    Task *task;
+}
+
+@property (nonatomic, retain) Task *task;
 
 @property (nonatomic, weak) id <TaskDetailsViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UITextField *nameTextField;

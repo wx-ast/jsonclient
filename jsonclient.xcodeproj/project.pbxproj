@@ -28,6 +28,7 @@
 		0E544A9914C5CEDF00A8C7BB /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E544A9814C5CEDF00A8C7BB /* TasksViewController.m */; };
 		0E544A9C14C5CFD900A8C7BB /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E544A9B14C5CFD900A8C7BB /* Task.m */; };
 		0E544A9F14C5D3B700A8C7BB /* TaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E544A9E14C5D3B700A8C7BB /* TaskDetailsViewController.m */; };
+		0E544AA514C7328900A8C7BB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E544AA414C7328900A8C7BB /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		0E544A9B14C5CFD900A8C7BB /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 		0E544A9D14C5D3B700A8C7BB /* TaskDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailsViewController.h; sourceTree = "<group>"; };
 		0E544A9E14C5D3B700A8C7BB /* TaskDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailsViewController.m; sourceTree = "<group>"; };
+		0E544AA414C7328900A8C7BB /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E544AA514C7328900A8C7BB /* libsqlite3.dylib in Frameworks */,
 				0E04CB8D14C5C6F100EFED05 /* UIKit.framework in Frameworks */,
 				0E04CB8F14C5C6F100EFED05 /* Foundation.framework in Frameworks */,
 				0E04CB9114C5C6F100EFED05 /* CoreGraphics.framework in Frameworks */,
@@ -101,6 +104,7 @@
 		0E04CB7D14C5C6F100EFED05 = {
 			isa = PBXGroup;
 			children = (
+				0E544AA414C7328900A8C7BB /* libsqlite3.dylib */,
 				0E04CB9214C5C6F100EFED05 /* jsonclient */,
 				0E04CBBB14C5C6F100EFED05 /* jsonclientTests */,
 				0E04CB8B14C5C6F100EFED05 /* Frameworks */,
