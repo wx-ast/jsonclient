@@ -17,19 +17,23 @@
 (TaskDetailsViewController *)controller;
 - (void)taskDetailsViewController:
 (TaskDetailsViewController *)controller 
-                       didAddTask:(Task *)task;
+                       didAddTask:(Task *)task position: (int) position;
 @end
 
 @interface TaskDetailsViewController : UITableViewController
 {
     Task *task;
+    NSInteger position;
 }
 
 @property (nonatomic, retain) Task *task;
+@property (assign, nonatomic) NSInteger position;
 
 @property (nonatomic, weak) id <TaskDetailsViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UITextField *nameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *descriptionTextField;
+@property (strong, nonatomic) IBOutlet UILabel *idLabel;
+@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)done:(id)sender;

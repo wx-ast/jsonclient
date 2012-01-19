@@ -10,7 +10,9 @@
 
 @interface Task : NSObject
 
+@property (nonatomic, assign) NSInteger id;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *description;
+@property (nonatomic, copy) NSDate *date;
 
 @end

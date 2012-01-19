@@ -14,7 +14,6 @@
 		0E04CB9914C5C6F100EFED05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CB9814C5C6F100EFED05 /* main.m */; };
 		0E04CB9D14C5C6F100EFED05 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CB9C14C5C6F100EFED05 /* AppDelegate.m */; };
 		0E04CBA014C5C6F100EFED05 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CB9E14C5C6F100EFED05 /* MainStoryboard.storyboard */; };
-		0E04CBA314C5C6F100EFED05 /* JsonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CBA214C5C6F100EFED05 /* JsonViewController.m */; };
 		0E04CBA514C5C6F100EFED05 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CBA414C5C6F100EFED05 /* first.png */; };
 		0E04CBA714C5C6F100EFED05 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E04CBA614C5C6F100EFED05 /* first@2x.png */; };
 		0E04CBAA14C5C6F100EFED05 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E04CBA914C5C6F100EFED05 /* InfoViewController.m */; };
@@ -53,8 +52,6 @@
 		0E04CB9B14C5C6F100EFED05 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E04CB9C14C5C6F100EFED05 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0E04CB9F14C5C6F100EFED05 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		0E04CBA114C5C6F100EFED05 /* JsonViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JsonViewController.h; sourceTree = "<group>"; };
-		0E04CBA214C5C6F100EFED05 /* JsonViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JsonViewController.m; sourceTree = "<group>"; };
 		0E04CBA414C5C6F100EFED05 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		0E04CBA614C5C6F100EFED05 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		0E04CBA814C5C6F100EFED05 /* InfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
@@ -138,8 +135,6 @@
 				0E04CB9B14C5C6F100EFED05 /* AppDelegate.h */,
 				0E04CB9C14C5C6F100EFED05 /* AppDelegate.m */,
 				0E04CB9E14C5C6F100EFED05 /* MainStoryboard.storyboard */,
-				0E04CBA114C5C6F100EFED05 /* JsonViewController.h */,
-				0E04CBA214C5C6F100EFED05 /* JsonViewController.m */,
 				0E04CBA414C5C6F100EFED05 /* first.png */,
 				0E04CBA614C5C6F100EFED05 /* first@2x.png */,
 				0E04CBA814C5C6F100EFED05 /* InfoViewController.h */,
@@ -299,7 +294,6 @@
 			files = (
 				0E04CB9914C5C6F100EFED05 /* main.m in Sources */,
 				0E04CB9D14C5C6F100EFED05 /* AppDelegate.m in Sources */,
-				0E04CBA314C5C6F100EFED05 /* JsonViewController.m in Sources */,
 				0E04CBAA14C5C6F100EFED05 /* InfoViewController.m in Sources */,
 				0E544A9914C5CEDF00A8C7BB /* TasksViewController.m in Sources */,
 				0E544A9C14C5CFD900A8C7BB /* Task.m in Sources */,

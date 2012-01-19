@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "Task.h"
-#import "TasksViewController.h"
 
 @implementation AppDelegate {
     NSMutableArray *tasks;
@@ -18,32 +17,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    tasks = [NSMutableArray arrayWithCapacity:20];
-	Task *task = [[Task alloc] init];
-	task.name = @"task 1";
-	task.description = @"description of task 1";
-	[tasks addObject:task];
-    task = [[Task alloc] init];
-    task.name = @"task 2";
-	task.description = @"description of task 2";
-	[tasks addObject:task];
-    task = [[Task alloc] init];
-    task.name = @"task 3";
-	task.description = @"description of task 3";
-	[tasks addObject:task];
-    task = [[Task alloc] init];
-    task.name = @"task 4";
-	task.description = @"description of task 4";
-	[tasks addObject:task];
-    
-	UITabBarController *tabBarController = 
-    (UITabBarController *)self.window.rootViewController;
-	UINavigationController *navigationController = 
-    [[tabBarController viewControllers] objectAtIndex:0];
-	TasksViewController *tasksViewController = 
-    [[navigationController viewControllers] objectAtIndex:0];
-	tasksViewController.tasks = tasks;
-    
     return YES;
 }
 							

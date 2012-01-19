@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TaskDetailsViewController.h"
 #import <sqlite3.h>
+#import "Task.h"
 
 @interface TasksViewController : UITableViewController <TaskDetailsViewControllerDelegate>
 {
@@ -18,6 +19,10 @@
 
 @property (nonatomic, strong) NSMutableArray *tasks;
 
-- (void) addTask:(NSString *) name description:(NSString *) description;
+- (void)createDb;
+- (void) loadTasks;
+- (NSInteger) addTask:(Task *)task;
+- (void) deleteTask:(Task *)task;
+- (void) updateTask:(Task *)task;
 
 @end

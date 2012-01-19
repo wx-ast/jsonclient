@@ -10,7 +10,9 @@
 
 @implementation Task
 
+@synthesize id;
 @synthesize name;
 @synthesize description;
+@synthesize date;
 
 @end

@@ -12,8 +12,11 @@
 @implementation TaskDetailsViewController
 
 @synthesize task;
+@synthesize position;
 
 @synthesize descriptionTextField;
+@synthesize idLabel;
+@synthesize datePicker;
 @synthesize delegate;
 @synthesize nameTextField;
 
@@ -26,8 +29,9 @@
     
 	self.task.name = self.nameTextField.text;
 	self.task.description= self.descriptionTextField.text;
+    self.task.date = [self.datePicker date];
 	[self.delegate taskDetailsViewController:self   
-                                  didAddTask:self.task];
+                                  didAddTask:self.task position:position];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -64,6 +68,8 @@
 {
     [self setNameTextField:nil];
     [self setDescriptionTextField:nil];
+    [self setIdLabel:nil];
+    [self setDatePicker:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -73,8 +79,16 @@
 {
     [super viewWillAppear:animated];
     
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    if (self.task.id > 0) {
+        [[self.tableView cellForRowAtIndexPath:indexPath] setHidden:NO];
+    } else {
+        [[self.tableView cellForRowAtIndexPath:indexPath] setHidden:YES];
+    }
+    [self.idLabel setText:[NSString stringWithFormat:@"id: %i", self.task.id]];
     [self.nameTextField setText: self.task.name];
     [self.descriptionTextField setText: self.task.description];
+    [self.datePicker setDate:self.task.date animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -107,5 +121,4 @@
         [self.descriptionTextField becomeFirstResponder];
     }
 }
-
 @end
