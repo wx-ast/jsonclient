@@ -3,22 +3,22 @@
 //  jsonclient
 //
 //  Created by Alexandr P on 17.01.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 atyx.ru. All rights reserved.
 //
 
 #import "TasksViewController.h"
 #import "Task.h"
-
+#import <Foundation/NSJSONSerialization.h>
 
 @implementation TasksViewController
 
-@synthesize tasks;
+@synthesize taskStore;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        //
     }
     return self;
 }
@@ -51,7 +51,7 @@
         NSIndexPath *selectedIndexPath = self.tableView.indexPathForSelectedRow;
         
         NSLog(@"DetailTask: %i", selectedIndexPath.row);
-        taskDetailsViewController.task = [self.tasks objectAtIndex: selectedIndexPath.row];
+        taskDetailsViewController.task = [self.taskStore.tasks objectAtIndex: selectedIndexPath.row];
         taskDetailsViewController.position = selectedIndexPath.row;
 		taskDetailsViewController.delegate = self;
     }
@@ -67,156 +67,86 @@
 {
     NSLog(@"position before save: %i", position);
     if (position < 0) {
-        NSInteger id = [self addTask:task];
-        task.id = id;
-        [self.tasks addObject:task];
+        [self.taskStore addTask:task];
     } else {
-        [self updateTask:task];
-        [self.tasks replaceObjectAtIndex:position withObject:task];
+        [self.taskStore updateTask:task];
+        [self.taskStore.tasks replaceObjectAtIndex:position withObject:task];
     }
     [self.tableView reloadData];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)createDb
-{
-    const char *dbpath = [databasePath UTF8String];
-    
-    if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
-    {
-        char *errMsg;
-        const char *sql_stmt = 
-        "CREATE TABLE IF NOT EXISTS task (id integer PRIMARY KEY, name varchar(200), description text, start_date datetime, finish_date datetime NULL)";
-        
-        if (sqlite3_exec(contactDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-        {
-            NSLog(@"Failed to create table");
-        } else {
-            NSLog(@"Db created");
-        }
-        sqlite3_close(contactDB);
-    } else {
-        NSLog(@"Failed to open/create database");
-    }
+- (void)refresh {
+    NSURL *url = [NSURL URLWithString:@"http://jsonapi.atyx.ru/changes/"];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setTag:1];
+    [request setDelegate:self];
+    [request startAsynchronous];
 }
 
-- (void) loadTasks
+- (void)requestFinished:(ASIHTTPRequest *)request
 {
-    const char *dbpath = [databasePath UTF8String];
-    sqlite3_stmt    *statement;
-    if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat: @"SELECT id, name, description, start_date FROM task LIMIT 20"];
-        
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(contactDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            
-            while (sqlite3_step(statement) == SQLITE_ROW)
-            {
-                Task *task = [[Task alloc] init];
+    NSInteger status = [request responseStatusCode];
+    if (status == 200) {
+        switch ([request tag]) {
+            case 1: {
+                NSLog(@"get changes");
+                NSError *error = nil;
+                NSData *responseData = [request responseData];
                 
-                task.id = sqlite3_column_int(statement, 0);
-                task.name = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
-                task.description = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
-                NSString *date = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
-                task.date = [dateFormatter dateFromString: date];
-                [self.tasks addObject:task];
+                NSDictionary *jsonDict = [NSJSONSerialization
+                                          JSONObjectWithData:responseData
+                                          options:NSJSONReadingMutableLeaves
+                                          error:&error];
+                NSMutableArray *newEls = [[NSMutableArray alloc] init];
+                for (NSDictionary *el in jsonDict) {
+                    Task *task = [[Task alloc] init];
+                    [task setName:[el valueForKey:@"name"]];
+                    [task setDescription:[el valueForKey:@"description"]];
+                    [task setDate:[self.taskStore dateFromString:[el valueForKey:@"start_date"]]];
+                    [task setRemote_id:[[el valueForKey:@"id"] integerValue]];
+                    [self.taskStore addTask:task];
+                    [newEls addObject:task];
+                }
+                for (Task *task in newEls) {
+                    NSLog(@"%i", task.remote_id);
+                }
+                [self.tableView reloadData];
+                
+                break;
             }
-            sqlite3_finalize(statement);
+            default:
+                break;
         }
-        sqlite3_close(contactDB);
-    }
-}
-
-- (NSInteger) addTask:(Task *)task
-{
-    const char *dbpath = [databasePath UTF8String];
-    sqlite3_stmt    *statement;
-    if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
-    {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        
-        NSString *querySQL = [NSString stringWithFormat: @"insert into task (name, description, start_date) VALUES('?', '?', '?')"];
-        
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(contactDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        { 
-            sqlite3_bind_text(statement, 1, [task.name UTF8String], -1, SQLITE_TRANSIENT);
-            sqlite3_bind_text(statement, 2, [task.description UTF8String], -1, SQLITE_TRANSIENT);
-            sqlite3_bind_text(statement, 3, [[dateFormatter stringFromDate:task.date] UTF8String], -1, SQLITE_TRANSIENT);
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-            return sqlite3_last_insert_rowid(contactDB);
-        } else {
-            NSLog(@"error sqlite3_prepare_v2");
-        }
-        sqlite3_close(contactDB);
     } else {
-        NSLog(@"cant open db");
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"HTTP wrong status!"
+                                                          message:[NSString stringWithFormat:@"status: %i", status]
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        
+        [message show];
     }
     
-    return 0;
+    // Use when fetching binary data
+//    NSData *responseData = [request responseData];
+    
+    [self performSelector:@selector(stopLoading) withObject:nil];
 }
 
-- (void) deleteTask:(Task *)task
+- (void)requestFailed:(ASIHTTPRequest *)request
 {
-    NSLog(@"delete task: %i", task.id);
-    const char *dbpath = [databasePath UTF8String];
-    sqlite3_stmt    *statement;
-    if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat: @"DELETE FROM task WHERE id='?'"];
-        
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(contactDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        { 
-            sqlite3_bind_int(statement, 1, task.id);
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-        } else {
-            NSLog(@"error sqlite3_prepare_v2");
-        }
-        sqlite3_close(contactDB);
-    } else {
-        NSLog(@"cant open db");
-    }
-}
-
-- (void) updateTask:(Task *)task
-{
-    const char *dbpath = [databasePath UTF8String];
-    sqlite3_stmt    *statement;
-    if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
-    {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        
-        NSString *querySQL = [NSString stringWithFormat: @"UPDATE task set name='?', description='?', start_date='?' WHERE id='?'"];
-        
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(contactDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        { 
-            sqlite3_bind_text(statement, 1, [task.name UTF8String], -1, SQLITE_TRANSIENT);
-            sqlite3_bind_text(statement, 2, [task.description UTF8String], -1, SQLITE_TRANSIENT);
-            sqlite3_bind_text(statement, 3, [[dateFormatter stringFromDate:task.date] UTF8String], -1, SQLITE_TRANSIENT);
-            sqlite3_bind_int(statement, 4, task.id);
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-        } else {
-            NSLog(@"error sqlite3_prepare_v2");
-        }
-        sqlite3_close(contactDB);
-    } else {
-        NSLog(@"cant open db");
-    }
+    NSError *error = [request error];
+    NSLog(@"%@", error);
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"HTTP loading error!"
+                                                      message:[NSString stringWithFormat:@"%@", [error localizedDescription]]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+    
+    [message show];
+    
+    [self performSelector:@selector(stopLoading) withObject:nil];
 }
 
 
@@ -232,32 +162,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
-    tasks = [NSMutableArray arrayWithCapacity:20];
-    
-    /**
-     *  Create sqlite database
-     */
-    NSString *docsDir;
-    NSArray *dirPaths;
-    
-    // Get the documents directory
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-    docsDir = [dirPaths objectAtIndex:0];
-    
-    // Build the path to the database file
-    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent: @"lite.sqlite"]];
-    NSLog(@"%@", databasePath);
-    
-    NSFileManager *filemgr = [NSFileManager defaultManager];
-    
-    if ([filemgr fileExistsAtPath: databasePath ] == NO)
-    {
-        [self createDb];
-    } else {
-        NSLog(@"Db file exists");
-    }
-    [self loadTasks];
+    self.taskStore = [[TaskStore alloc] init:@"db.sqlite"];
+    [self.taskStore loadTasks];
 }
 
 - (void)viewDidUnload
@@ -303,14 +209,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.tasks count];
+    return [self.taskStore.tasks count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView 
                              dequeueReusableCellWithIdentifier:@"TaskCell"];
-	Task *task = [self.tasks objectAtIndex:indexPath.row];
+	Task *task = [self.taskStore.tasks objectAtIndex:indexPath.row];
 	cell.textLabel.text = task.name;
 	cell.detailTextLabel.text = task.description;
     
@@ -328,8 +234,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self deleteTask:[self.tasks objectAtIndex:indexPath.row]];
-        [self.tasks removeObjectAtIndex:indexPath.row];
+        [self.taskStore deleteTask:[self.taskStore.tasks objectAtIndex:indexPath.row]];
+        [self.taskStore.tasks removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -342,9 +248,9 @@
     if (fromIndexPath.row == toIndexPath.row) {
         return;
     }
-    Task *task = [self.tasks objectAtIndex:fromIndexPath.row];
-    [self.tasks removeObjectAtIndex:fromIndexPath.row];
-    [self.tasks insertObject:task atIndex:toIndexPath.row];
+    Task *task = [self.taskStore.tasks objectAtIndex:fromIndexPath.row];
+    [self.taskStore.tasks removeObjectAtIndex:fromIndexPath.row];
+    [self.taskStore.tasks insertObject:task atIndex:toIndexPath.row];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath

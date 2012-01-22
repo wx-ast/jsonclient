@@ -3,7 +3,7 @@
 //  jsonclient
 //
 //  Created by Alexandr P on 17.01.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 atyx.ru. All rights reserved.
 //
 
 #import "TaskDetailsViewController.h"
@@ -79,13 +79,13 @@
 {
     [super viewWillAppear:animated];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-    if (self.task.id > 0) {
-        [[self.tableView cellForRowAtIndexPath:indexPath] setHidden:NO];
-    } else {
-        [[self.tableView cellForRowAtIndexPath:indexPath] setHidden:YES];
-    }
-    [self.idLabel setText:[NSString stringWithFormat:@"id: %i", self.task.id]];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+//    if (self.task.id > 0) {
+//        [[self.tableView cellForRowAtIndexPath:indexPath] setHidden:NO];
+//    } else {
+//        [[self.tableView cellForRowAtIndexPath:indexPath] setHidden:YES];
+//    }
+    [self.idLabel setText:[NSString stringWithFormat:@"id: %i, remote_id: %i", self.task.id, self.task.remote_id]];
     [self.nameTextField setText: self.task.name];
     [self.descriptionTextField setText: self.task.description];
     [self.datePicker setDate:self.task.date animated:NO];
